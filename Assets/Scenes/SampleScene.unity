@@ -244,8 +244,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282840810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.06116194, y: 0.9353631, z: -0.20113584, w: -0.28442812}
+  m_LocalPosition: {x: 603.9898, y: 269.79233, z: 719.5352}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 618286794}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -288,7 +288,7 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 3
   m_TerrainData: {fileID: 15600000, guid: 33b7eab0298e14e029e39c9c7a46ceb7, type: 2}
-  m_TreeDistance: 5000
+  m_TreeDistance: 2000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
@@ -334,3 +334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d198a66aabf94658a4fe63e2c395fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomHeightRange: {x: 0, y: 0.1}
+  terrain: {fileID: 618286792}
+  terrainData: {fileID: 15600000, guid: 33b7eab0298e14e029e39c9c7a46ceb7, type: 2}
