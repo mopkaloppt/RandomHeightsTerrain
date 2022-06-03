@@ -335,5 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomHeightRange: {x: 0, y: 0.1}
+  heightMapImage: {fileID: 2800000, guid: c254291cc719d46639de0ba30e58e60d, type: 3}
+  heightMapScale: {x: 3, y: 1, z: 3}
   terrain: {fileID: 618286792}
   terrainData: {fileID: 15600000, guid: 33b7eab0298e14e029e39c9c7a46ceb7, type: 2}
