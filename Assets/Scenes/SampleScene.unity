@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
@@ -244,8 +244,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282840810}
-  m_LocalRotation: {x: -0.06116194, y: 0.9353631, z: -0.20113584, w: -0.28442812}
-  m_LocalPosition: {x: 603.9898, y: 269.79233, z: 719.5352}
+  m_LocalRotation: {x: 0.31874266, y: 0.123743184, z: -0.042003844, w: 0.9387899}
+  m_LocalPosition: {x: 131.48337, y: 345.52643, z: -163.88214}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 618286792}
   - component: {fileID: 618286791}
   - component: {fileID: 618286794}
+  - component: {fileID: 618286795}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Terrain
@@ -335,7 +336,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomHeightRange: {x: 0, y: 0.1}
-  heightMapImage: {fileID: 2800000, guid: c254291cc719d46639de0ba30e58e60d, type: 3}
-  heightMapScale: {x: 3, y: 1, z: 3}
+  heightMapImage: {fileID: 2800000, guid: 6df494833949b45a7a924e55e668493f, type: 3}
+  heightMapScale: {x: 2, y: 0.5, z: 2}
   terrain: {fileID: 618286792}
   terrainData: {fileID: 15600000, guid: 33b7eab0298e14e029e39c9c7a46ceb7, type: 2}
+--- !u!108 &618286795
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 618286790}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 2
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10.797363
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
