@@ -24,6 +24,19 @@ public class CustomTerrain : MonoBehaviour {
 		}
 		terrainData.SetHeights(0, 0, heightMap);
 	}
+	public void ResetTerrain()
+	{
+		float[,] heightMap;
+		heightMap = new float[terrainData.heightmapWidth, terrainData.heightmapHeight];
+		for (int x = 0; x < terrainData.heightmapWidth; x++)
+		{
+			for (int z = 0; z < terrainData.heightmapHeight; z++)
+			{
+				heightMap[x,z] = 0;
+			}
+		}
+		terrainData.SetHeights(0, 0, heightMap);
+	}
 	public void OnEnable()
 	{
 		Debug.Log("Initialising Terrain Data");
