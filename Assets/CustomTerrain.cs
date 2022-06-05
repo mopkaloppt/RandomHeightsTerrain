@@ -5,13 +5,35 @@ using System.Collections.Generic;
 using System.Linq;
 
 [ExecuteInEditMode] // If we don't have this line, the code runs only when we press play.
-public class CustomTerrain : MonoBehaviour {
-
+public class CustomTerrain : MonoBehaviour 
+{
 	public Vector2 randomHeightRange = new Vector2(0, 0.1f);
 	public Texture2D heightMapImage;
 	public Vector3 heightMapScale = new Vector3(1, 1, 1);
+
+	// PERLIN NOISE -----------------------------------------------
+	public float perlinXScale = 0.01f;
+	public float perlinYScale = 0.01f;
+	public int perlinOffsetX = 0;
+	public int perlinOffsetY = 0;
+
 	public Terrain terrain;
 	public TerrainData terrainData;
+
+	public void Perlin()
+	{
+		float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth,
+														  terrainData.heightmapHeight);
+		for (int x = 0; x < terrainData.heightmapWidth; x++)
+		{
+			for (int y = 0; y < terrainData.heightmapHeight; y++)
+			{
+				heightMap[x,y] = Mathf.PerlinNoise((x + perlinOffsetX) * perlinXScale, 
+												   (y + perlinOffsetY) * perlinYScale);
+			}
+		}
+		terrainData.SetHeights(0, 0, heightMap);
+	}
 
 	public void RandomTerrain()
 	{
