@@ -107,8 +107,9 @@ public class CustomTerrain : MonoBehaviour
 	public void Voranoi()
 	{
 		float[,] heightMap = GetHeightMap();
-		Vector3 peak = new Vector3(256, 0.2f, 256);
-		float fallOff = 0.5f;
+		Vector3 peak = new Vector3(256, 0.5f, 256);
+		float fallOff = 0.2f;
+		float dropOff = 0.6f;
 		// Vector3 peak = new Vector3(UnityEngine.Random.Range(0, terrainData.heightmapWidth),
 		// 						   UnityEngine.Random.Range(0.0f, 1.0f),
 		// 						   UnityEngine.Random.Range(0, terrainData.heightmapHeight));
@@ -124,9 +125,15 @@ public class CustomTerrain : MonoBehaviour
 			{
 				if (!(x == peak.x && y == peak.z))
 				{
-					float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) * fallOff;
+					// float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) * fallOff;
+					float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) / maxDistance;
+					
+					float h = peak.y - distanceToPeak * fallOff - Mathf.Pow(distanceToPeak, dropOff);
+					// Non-realistic Voranoi with Sin wave extending out of the little lower peak in the middle. 
+					// float h = peak.y - Mathf.Sin(distanceToPeak * 100) * 0.1f;
+					heightMap[x,y] = h;
 					// Creating slope by taking the height off the peak proportionate to the distance away from the peak
-					heightMap[x,y] += peak.y - (distanceToPeak / maxDistance);
+					// heightMap[x,y] += peak.y - (distanceToPeak / maxDistance);
 				}
 			}
 		}									 
