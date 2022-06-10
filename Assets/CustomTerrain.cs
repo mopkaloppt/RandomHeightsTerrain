@@ -46,6 +46,8 @@ public class CustomTerrain : MonoBehaviour
 	public float voronoiMinHeight = 0.1f;
 	public float voronoiMaxHeight = 0.5f;
 	public int voronoiPeaks = 5;
+	public enum VoronoiType { Linear = 0, Power = 1, Meringue = 2, Combined = 3 }
+	public VoronoiType voronoiType = VoronoiType.Linear;
 
 	public Terrain terrain;
 	public TerrainData terrainData;
@@ -143,9 +145,28 @@ public class CustomTerrain : MonoBehaviour
 					if (!(x == peak.x && y == peak.z))
 					{
 						float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) / maxDistance;
-						// Non-realistic voronoi with Sin wave extending out of the little lower peak in the middle. 
-						// float h = peak.y - Mathf.Sin(distanceToPeak * 100) * 0.1f;
-						float h = peak.y - distanceToPeak * voronoiFallOff - Mathf.Pow(distanceToPeak, voronoiDropOff);
+						float h;
+
+						if (voronoiType == VoronoiType.Combined)
+						{
+							h = peak.y - distanceToPeak * voronoiFallOff -
+								Mathf.Pow(distanceToPeak, voronoiDropOff);
+						}
+						else if (voronoiType == VoronoiType.Power)
+						{
+							h = peak.y - Mathf.Pow(distanceToPeak, voronoiDropOff) * voronoiFallOff;
+						}
+						else if (voronoiType == VoronoiType.Meringue)
+						{
+							h = peak.y - Mathf.Pow(distanceToPeak * 3, voronoiFallOff) - 
+											Mathf.Sin(distanceToPeak * 2 * Mathf.PI) / voronoiDropOff;
+						}
+						else
+						{
+							// Non-realistic voronoi with Sin wave extending out of the little lower peak in the middle. 
+							// float h = peak.y - Mathf.Sin(distanceToPeak * 100) * 0.1f;
+							h = peak.y - distanceToPeak * voronoiFallOff;
+						}		
 						// If the height isn't there, set it to height h (lift it up), else don't bring it back down
 						if (heightMap[x,y] < h)
 						{

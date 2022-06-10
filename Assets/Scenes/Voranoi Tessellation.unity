@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -362,10 +362,11 @@ MonoBehaviour:
     mPerlinOffsetX: 0
     mPerlinOffsetY: 0
     remove: 0
-  voronoiFallOff: 0.2
-  voronoiDropOff: 0.6
-  voronoiMinHeight: 0.25
-  voronoiMaxHeight: 0.412
-  voronoiPeaks: 9
+  voronoiFallOff: 10
+  voronoiDropOff: 10
+  voronoiMinHeight: 0.07
+  voronoiMaxHeight: 0.23
+  voronoiPeaks: 3
+  voronoiType: 2
   terrain: {fileID: 1305995576}
   terrainData: {fileID: 15600000, guid: 93319885843fd46908e7440d1e7c4d66, type: 2}
