@@ -102,20 +102,35 @@ public class CustomTerrain : MonoBehaviour
         	perlinParameters[0] = new PerlinParameters();
     	}
     	perlinParameters.RemoveAll(param => param.remove);
-		// List<PerlinParameters> keptPerlinParameters = new List<PerlinParameters>();
-		// for (int i = 0; i < perlinParameters.Count; i++)
-		// {
-		// 	if (!keptPerlinParameters[i].remove)
-		// 	{
-		// 		keptPerlinParameters.Add(keptPerlinParameters[i]);
-		// 	}
-		// }
-		// // If you don't keep any. must leave at least one list of params in the GUITable
-		// if (keptPerlinParameters.Count == 0)
-		// {
-		// 	keptPerlinParameters.Add(perlinParameters[0]);
-		// }
-		// perlinParameters = keptPerlinParameters;
+	}
+
+	public void Voranoi()
+	{
+		float[,] heightMap = GetHeightMap();
+		Vector3 peak = new Vector3(256, 0.2f, 256);
+		float fallOff = 0.5f;
+		// Vector3 peak = new Vector3(UnityEngine.Random.Range(0, terrainData.heightmapWidth),
+		// 						   UnityEngine.Random.Range(0.0f, 1.0f),
+		// 						   UnityEngine.Random.Range(0, terrainData.heightmapHeight));
+
+		heightMap[(int)peak.x, (int)peak.z] = peak.y;
+
+		Vector2 peakLocation = new Vector2(peak.x, peak.z);
+		float maxDistance = Vector2.Distance(new Vector2(0, 0),
+											 new Vector2(terrainData.heightmapWidth, terrainData.heightmapHeight));
+
+		for (int y = 0; y < terrainData.heightmapHeight; y++){
+			for (int x = 0; x < terrainData.heightmapWidth; x++)
+			{
+				if (!(x == peak.x && y == peak.z))
+				{
+					float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) * fallOff;
+					// Creating slope by taking the height off the peak proportionate to the distance away from the peak
+					heightMap[x,y] += peak.y - (distanceToPeak / maxDistance);
+				}
+			}
+		}									 
+		terrainData.SetHeights(0, 0, heightMap);
 	}
 
 	public void RandomTerrain()
