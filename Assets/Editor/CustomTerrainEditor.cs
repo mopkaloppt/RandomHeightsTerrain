@@ -23,12 +23,19 @@ public class CustomTerrainEditor : Editor {
 	GUITableState perlinParameterTable;
 	SerializedProperty perlinParameters;
 
+	// voronoi Properties -----------
+	SerializedProperty voronoiPeaks;
+	SerializedProperty voronoiFallOff;
+	SerializedProperty voronoiDropOff;
+	SerializedProperty voronoiMinHeight;
+	SerializedProperty voronoiMaxHeight;
+
 	// Fold outs -----------
 	bool showRandom = false;
 	bool showLoadHeights = false;
 	bool showPerlinNoise = false;
 	bool showMultiplePerlin = false;
-	bool showVoranoi = false;
+	bool showVoronoi = false;
 
 	void OnEnable()
 	{
@@ -45,6 +52,12 @@ public class CustomTerrainEditor : Editor {
 		resetTerrain = serializedObject.FindProperty("resetTerrain");
 		perlinParameterTable = new GUITableState("perlinParameterTable");
 		perlinParameters = serializedObject.FindProperty("perlinParameters");
+
+		voronoiPeaks = serializedObject.FindProperty("voronoiPeaks");
+		voronoiFallOff = serializedObject.FindProperty("voronoiFallOff");
+		voronoiDropOff = serializedObject.FindProperty("voronoiDropOff");
+		voronoiMinHeight = serializedObject.FindProperty("voronoiMinHeight");
+		voronoiMaxHeight = serializedObject.FindProperty("voronoiMaxHeight");
 	}
 	public override void OnInspectorGUI()
 	{
@@ -113,12 +126,18 @@ public class CustomTerrainEditor : Editor {
 				terrain.MultiplePerlinTerrain(); 
 			}
 		}
-		showVoranoi = EditorGUILayout.Foldout(showVoranoi, "Voranoi");
-		if (showVoranoi)
+
+		showVoronoi = EditorGUILayout.Foldout(showVoronoi, "Voronoi");
+		if (showVoronoi)
 		{
-			if (GUILayout.Button("Voranoi"))
+			EditorGUILayout.IntSlider(voronoiPeaks, 1, 10, new GUIContent("Peak Count"));
+			EditorGUILayout.Slider(voronoiFallOff, 0, 10, new GUIContent("Fall Off"));
+			EditorGUILayout.Slider(voronoiDropOff, 0, 10, new GUIContent("Drop Off"));
+			EditorGUILayout.Slider(voronoiMinHeight, 0, 1, new GUIContent("Min Height"));
+			EditorGUILayout.Slider(voronoiMaxHeight, 0, 1, new GUIContent("Max Height"));
+			if (GUILayout.Button("Voronoi"))
 			{ 
-				terrain.Voranoi(); 
+				terrain.Voronoi(); 
 			}
 		}
 

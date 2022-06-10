@@ -40,6 +40,13 @@ public class CustomTerrain : MonoBehaviour
 		new PerlinParameters()
 	};
 
+	// voronoi ---------------------------------------
+	public float voronoiFallOff = 0.2f;
+	public float voronoiDropOff = 0.6f;
+	public float voronoiMinHeight = 0.1f;
+	public float voronoiMaxHeight = 0.5f;
+	public int voronoiPeaks = 5;
+
 	public Terrain terrain;
 	public TerrainData terrainData;
 
@@ -104,39 +111,50 @@ public class CustomTerrain : MonoBehaviour
     	perlinParameters.RemoveAll(param => param.remove);
 	}
 
-	public void Voranoi()
+	public void Voronoi()
 	{
 		float[,] heightMap = GetHeightMap();
-		Vector3 peak = new Vector3(256, 0.5f, 256);
-		float fallOff = 0.2f;
-		float dropOff = 0.6f;
-		// Vector3 peak = new Vector3(UnityEngine.Random.Range(0, terrainData.heightmapWidth),
-		// 						   UnityEngine.Random.Range(0.0f, 1.0f),
-		// 						   UnityEngine.Random.Range(0, terrainData.heightmapHeight));
 
-		heightMap[(int)peak.x, (int)peak.z] = peak.y;
-
-		Vector2 peakLocation = new Vector2(peak.x, peak.z);
-		float maxDistance = Vector2.Distance(new Vector2(0, 0),
-											 new Vector2(terrainData.heightmapWidth, terrainData.heightmapHeight));
-
-		for (int y = 0; y < terrainData.heightmapHeight; y++){
-			for (int x = 0; x < terrainData.heightmapWidth; x++)
+		for (int p = 0; p < voronoiPeaks; p++)
+		{
+			Vector3 peak = new Vector3(UnityEngine.Random.Range(0, terrainData.heightmapWidth),
+								       UnityEngine.Random.Range(voronoiMinHeight, voronoiMaxHeight),
+								       UnityEngine.Random.Range(0, terrainData.heightmapHeight));
+			
+			// If the current location has got no peak (checking that its value is lower than the peak we're about to assign),
+			// then assign this new peak, else don't assign because if you do it will try to bring the peak down and create a hole
+			if (heightMap[(int)peak.x, (int)peak.z] < peak.y)
 			{
-				if (!(x == peak.x && y == peak.z))
-				{
-					// float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) * fallOff;
-					float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) / maxDistance;
-					
-					float h = peak.y - distanceToPeak * fallOff - Mathf.Pow(distanceToPeak, dropOff);
-					// Non-realistic Voranoi with Sin wave extending out of the little lower peak in the middle. 
-					// float h = peak.y - Mathf.Sin(distanceToPeak * 100) * 0.1f;
-					heightMap[x,y] = h;
-					// Creating slope by taking the height off the peak proportionate to the distance away from the peak
-					// heightMap[x,y] += peak.y - (distanceToPeak / maxDistance);
-				}
+				// Assign the peak to the randomly picked location on a height map
+				heightMap[(int)peak.x, (int)peak.z] = peak.y;
 			}
-		}									 
+			else
+				continue;
+		
+			Vector2 peakLocation = new Vector2(peak.x, peak.z);
+			// Give you diagonal line from bottom left corner to top right corner of the map
+			float maxDistance = Vector2.Distance(new Vector2(0, 0),
+											     new Vector2(terrainData.heightmapWidth, terrainData.heightmapHeight));
+			
+			for (int y = 0; y < terrainData.heightmapHeight; y++)
+			{
+				for (int x = 0; x < terrainData.heightmapWidth; x++)
+				{
+					if (!(x == peak.x && y == peak.z))
+					{
+						float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) / maxDistance;
+						// Non-realistic voronoi with Sin wave extending out of the little lower peak in the middle. 
+						// float h = peak.y - Mathf.Sin(distanceToPeak * 100) * 0.1f;
+						float h = peak.y - distanceToPeak * voronoiFallOff - Mathf.Pow(distanceToPeak, voronoiDropOff);
+						// If the height isn't there, set it to height h (lift it up), else don't bring it back down
+						if (heightMap[x,y] < h)
+						{
+							heightMap[x,y] = h;
+						}						
+					}
+				}
+			}		
+		}
 		terrainData.SetHeights(0, 0, heightMap);
 	}
 
